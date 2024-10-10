@@ -1,0 +1,105 @@
+1. Test Scenario 1: User Login
+○ Description: Automate the login functionality of the application.
+1. Navigate to the login page.
+driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
+driver.implicit_Wait(5)
+
+2. Enter a valid username and password.
+Username = driver.find_element(By.NAME, 'username')
+Usermname.send_keys("Admin")
+Password = driver.find_element(BY.NAME, 'password')
+Password.send_keys("admin123")
+
+3. Click on the "Login" button.
+LoginButton = driver.find_element(by.XPATH, '//button[@class="oxd-button oxd-button--medium oxd-button--main orangehrm-login-button"]')
+LoginButton.click()
+
+4. Verify successful login by checking the presence of a user-specificelement.
+UserElement = Dashboard
+VerifyElement = driver.find_element(by.XPATH, '//span//h6[@class="oxd-text oxd-text--h6 oxd-topbar-header-breadcrumb-module"]')
+assert.equal(UserElement, VerifyElement)
+
+
+2. Test Scenario 2: User Management Search
+○ Description: Automate the search functionality.
+1. Ensure the user is logged in.
+driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
+driver.find_element(By.NAME, 'username').send_keys("Admin")
+driver.find_element(BY.NAME, 'password').send_keys("admin123")
+driver.find_element(by.XPATH, '//button[@class="oxd-button oxd-button--medium oxd-button--main orangehrm-login-button"]').click()
+
+2. Search for a user (e.g., "Bhuvaneshwar") using the search bar.
+driver.find_element(by.XPAth, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[2]/a').click()
+SearchUser= driver.find_element(by.PLACEHOLDER, 'Type for hints...').send_keys("Amelia")
+ClicksearchButton = driver.find_element(by.TYPE, 'submit').click()
+
+3. Verify that search results are displayed and contain the searchkeyword.
+VerifyUser = driver.find_element(by.XPATH, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[3]')
+assert.equal(Amelia, VerifyUser)
+
+4. Validate that the user details page can be opened from the searchresults.
+OpenUserDetails = driver.find_element(by.XPAth, '//*[@id="app"]/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div/div/div[3]').click()
+
+
+3. Test Scenario 3: Add to new user
+○ Description: Automate the process of adding a user.
+
+driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
+driver.find_element(By.NAME, 'username').send_keys("Admin")
+driver.find_element(BY.NAME, 'password').send_keys("admin123")
+driver.find_element(by.XPATH, '//button[@class="oxd-button oxd-button--medium oxd-button--main orangehrm-login-button"]').click()
+
+driver.find_element(by.XPAth, '//*[@id="app"]/div[1]/div[1]/aside/nav/div[2]/ul/li[2]/a').click()
+driver.find_element(by.xpath, '//*[@id="app"]/div[1]/div[1]/header/div[2]/nav/ul/li[3]/a').click()
+
+2. Employee Name - {{name}}
+Firstname= driver.find_element(by.NAME, 'firstName').send_keys("Aditya")
+Middlename= driver.find_element(by.NAME, 'middleName').send_keys("Amar")
+lastname= driver.find_element(by.NAME, 'lastName').send_keys("Patil")
+
+3. Status - Enable
+driver.find_element(by.CLASS_NAME, 'oxd-switch-input oxd-switch-input--active --label-right').click()
+SelectStatus= driver.find_element(by.CLASS_NAME, 'oxd-radio-input oxd-radio-input--active --label-right oxd-radio-input').click()
+
+4. Username - {{usernmae}}
+Username = driver.find_element(by.XPATH, '(//input[@class="oxd-input oxd-input--active"])[3]').send_keys(Adityap0501)
+
+5. Password and Confirm Pass - Qwerty@123
+password = driver.find_element(by.XPATH, '(//input[@class="oxd-input oxd-input--active"])[4]').send_keys(Qwerty@123)
+Cpassword = driver.find_element(by.XPATH, '(//input[@class="oxd-input oxd-input--active"])[5]').send_keys(Qwerty@123)
+driver.find_element(by.TYPE, 'submit').click()
+
+
+4. Test Scenario 4: API Testing
+○ Description: Test the API endpoint that provides product details.
+
+1. Send a GET request to the
+ responce = requests.get("https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/admin/users?limit=50&offset=0&sortField=u.userName&sortOrder=ASC")
+
+2. Verify that the response status code is 200.
+ assert response.status_code == 200
+
+3. Validate the structure of the response JSON, ensuring it contains user details like username, role, status,
+ response_json = response.json()
+expected_keys = ["username", "role", "status"]
+for user in response_json['data']:
+    for key in expected_keys:
+        assert key in user,
+expected_user_details = {
+    "username": "Aditya",
+    "role": "Admin",
+    "status": "Active"
+},
+
+4. Verify the correctness of the data against the UI.
+for user in response_json['data']:
+    if user['username'] == expected_user_details['username']:
+        assert user['role'] == expected_user_details['role'], 
+        assert user['status'] == expected_user_details['status'],
+print("API response validated successfully.")
+
+
+
+
+
+
